@@ -1,0 +1,257 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace Logic
+{
+    public class Logic
+    {
+        private List<Observer> observer;
+
+        public Logic()
+        {
+            observer = new List<Observer>() { 
+                new ConsoleLog(), 
+                new FileLog(Config.FILE_LOG) 
+            };
+        }
+
+        public void observe(string text)
+        {
+            this.observer.ForEach(delegate (Observer item)
+            {
+                item.handle(text);
+            });
+        }
+
+        public bool isRegister(string answer)
+        {
+            bool result;
+            switch (answer)
+            {
+                case "1":
+                    result = true;
+                    break;
+                case "2":
+                    result = false;
+                    break;
+                default:
+                    throw new Exception("Неверное действие!");
+            }
+            return result;
+        }
+
+        public void start()
+        {
+            User currentUser = new User();
+
+            Console.WriteLine("Выберите действие: ");
+            Console.WriteLine("1. Зарегистрироваться");
+            Console.WriteLine("2. Войти");
+
+            string answer = Console.ReadLine();
+            try
+            {
+                Console.Clear();
+                if (this.isRegister(answer))
+                {
+                    Console.Write("Регистрация");
+                    Console.Write("Введите имя нового пользователя:");
+                    string name = Console.ReadLine();
+
+                    Console.Write("Логин:");
+                    string login = Console.ReadLine();
+
+                    Console.Write("Пароль:");
+                    string password = Console.ReadLine();
+
+                    currentUser = User.create(name, login, password);
+                }
+                else
+                {
+                    Console.Write("Логин:");
+                    string login = Console.ReadLine();
+
+                    Console.Write("Пароль:");
+                    string password = Console.ReadLine();
+
+                    currentUser = User.getUserByLoginAndPassword(login, password);
+                }
+            }
+            catch (Exception exp)
+            {
+                this.observe(exp.Message);
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine($"Добро пожаловать, {currentUser.Name}");
+
+            while (true)
+            {
+
+                try
+                {
+                    Console.WriteLine("Выберите действие:");
+                    Console.WriteLine("1) Просмотреть все города;");
+                    Console.WriteLine("2) Создать новый город;");
+                    Console.WriteLine("3) Изменить существующий город;");
+                    Console.WriteLine("4) Удалить существующий город;");
+                    Console.WriteLine("0) Выйти");
+                    answer = Console.ReadLine();
+
+                    if (answer == "1")
+                    {
+                        this.showCities(currentUser);
+                    }
+                    else if (answer == "2")
+                    {
+                        this.createCity(currentUser);
+                    }
+                    else if (answer == "3")
+                    {
+                        this.upadateCity(currentUser);
+                    }
+                    else if (answer == "4")
+                    {
+                        this.deleteCity(currentUser);
+                    }
+                    else if (answer == "0")
+                    {
+                        Console.WriteLine($"Удачи, {currentUser.Name}!");
+                        break;
+                    }
+                }
+                catch (Exception exp)
+                {
+                    this.observe(exp.Message);
+                    return;
+                }
+                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить!");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        private void createCity(User user)
+        {
+            string title;
+            UInt32 area, population;
+
+            Console.Write("1) Введите название города: ");
+            title = Console.ReadLine();
+
+            Console.Write("2) Введите площадь города: ");
+            area = UInt32.Parse(Console.ReadLine());
+
+            Console.Write("3) Введите численность населения города: ");
+            population = UInt32.Parse(Console.ReadLine());
+
+            City.create(user, title, area, population);
+        }
+
+        private void showCities(User user)
+        {
+            try
+            {
+                List<City> cities = City.getAllCityByUserId(user);
+                string[] array = new string[] { "ID", "Title", "Area", "Population" };
+                Console.WriteLine("{0,5}   |{1,15}   |{2,10}   |{3,10}", array);
+                cities.ForEach(delegate (City city)
+                {
+                    array = new string[] { city.City_id.ToString(), city.Title, city.Area.ToString(), city.Population.ToString() };
+                    Console.WriteLine("{0,5}   |{1,15}   |{2,10}   |{3,10}", array);
+                });
+            }
+            catch (Exception)
+            {
+                throw new Exception("Не получить все города!");
+            }
+        }
+
+        private void upadateCity(User user)
+        {
+           while(true)
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine("Введите ID города, параматры которого вы хотите изменить");
+                    int city_id = Int32.Parse(Console.ReadLine());
+                    City city = City.getCityById(city_id);
+
+                    Console.WriteLine("Какой параматр вы хотите изменить?");
+                    Console.WriteLine("1) Название;");
+                    Console.WriteLine("2) Площадь;");
+                    Console.WriteLine("3) Численность населения;");
+                    Console.WriteLine("0) Отменить");
+                    
+                    string answer = Console.ReadLine();
+                    if (answer == "1")
+                    {
+                        Console.Write("Введите новое название города: ");
+                        string title = Console.ReadLine();
+                        city.Title = title;
+                        city.update();
+                    }
+                    else if (answer == "2")
+                    {
+                        Console.Write("Введите новую площадь города: ");
+                        UInt32 area = UInt32.Parse(Console.ReadLine());
+                        city.Area = area;
+                        city.update();
+                    }
+                    else if (answer == "3")
+                    {
+                        Console.Write("Введите новую численность населения города: ");
+                        UInt32 population = UInt32.Parse(Console.ReadLine());
+                        city.Population = population;
+                        city.update();
+                    }
+                    else if (answer == "0")
+                    {
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Не удалось изменить город!");
+                }
+            }
+
+        }
+
+        private void deleteCity(User user)
+        {
+           while (true)
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine("Введите ID города, которого вы хотите удалить");
+                    int city_id = Int32.Parse(Console.ReadLine());
+                    City city = City.getCityById(city_id);
+                    Console.WriteLine($"Вы уверены, что хотите удалить город {city.Title}?");
+                    Console.WriteLine("Введите Y/N");
+                    string answer = Console.ReadLine().ToUpper();
+                    if (answer == "Y")
+                    {
+                        city.delete();
+                        break;
+                    }
+                    else if (answer == "N")
+                    {
+                        Console.WriteLine($"Удаление отменено!");
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Не удалось удалить город!");
+                }
+            }
+        }
+    }
+}

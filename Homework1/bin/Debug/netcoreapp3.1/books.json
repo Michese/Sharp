@@ -1,0 +1,20 @@
+{
+  "Books":
+  [
+    {
+      "title": "Broken hearts",
+      "genre": "Romance",
+      "price": "15"
+    },
+    {
+      "title": "Nothing in my life",
+      "genre": "Guide",
+      "price": "12"
+    },
+    {
+      "title": "Love for love",
+      "genre": "Romance",
+      "price": "6"
+    }
+  ]
+}
