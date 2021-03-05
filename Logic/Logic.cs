@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Logic
 {
@@ -57,15 +58,45 @@ namespace Logic
                 Console.Clear();
                 if (this.isRegister(answer))
                 {
-                    Console.Write("Регистрация");
+                    string name, login, password;
+
+                    Console.WriteLine("Регистрация");
                     Console.Write("Введите имя нового пользователя:");
-                    string name = Console.ReadLine();
+                    name = Console.ReadLine().Trim();
 
                     Console.Write("Логин:");
-                    string login = Console.ReadLine();
+                    login = Console.ReadLine().Trim();
 
                     Console.Write("Пароль:");
-                    string password = Console.ReadLine();
+                    password = Console.ReadLine().Trim();
+
+                    if (name.Length == 0 || login.Length == 0 || password.Length == 0)
+                    {
+                        throw new Exception("Поля не должны быть пустыми!");
+                    }
+
+                    if (name.Length > 20 || login.Length > 20 || password.Length > 20)
+                    {
+                        throw new Exception("Превышенно максимальное значение длины!");
+                    }
+
+                    Regex regex = new Regex(@"\s+");
+                    if (regex.IsMatch(name) || regex.IsMatch(login) || regex.IsMatch(password))
+                    {
+                        throw new Exception("Поля не должны содержать пробельные символы!");
+                    }
+
+                    regex = new Regex(@"^[a-zA-Z]+[1-9a-zA-Z]*$");
+                    if (!regex.IsMatch(login))
+                    {
+                        throw new Exception("Логин должен содержать только цифры и латинские буквы. И он должен начинаться с буквенного символа!");
+                    }
+
+                    if (!regex.IsMatch(name))
+                    {
+                        throw new Exception("Имя должено содержать только цифры и латинские буквы. И оно должно начинаться с буквенного символа!");
+                    }
+
 
                     currentUser = User.create(name, login, password);
                 }
@@ -83,6 +114,7 @@ namespace Logic
             catch (Exception exp)
             {
                 this.observe(exp.Message);
+                Console.ReadKey();
                 return;
             }
 
@@ -127,6 +159,7 @@ namespace Logic
                 catch (Exception exp)
                 {
                     this.observe(exp.Message);
+                    Console.ReadKey();
                     return;
                 }
                 Console.WriteLine("Нажмите любую клавишу, чтобы продолжить!");
@@ -193,6 +226,12 @@ namespace Logic
                     {
                         Console.Write("Введите новое название города: ");
                         string title = Console.ReadLine();
+
+                        if (title.Length > 10)
+                        {
+                            throw new Exception("Название города не должно содержать более 10 символов");
+                        }
+
                         city.Title = title;
                         city.update();
                     }

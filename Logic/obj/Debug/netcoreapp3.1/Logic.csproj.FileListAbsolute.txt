@@ -7,3 +7,12 @@ D:\code\c#\homework1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.AssemblyInfo.
 D:\code\c#\homework1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.csproj.CoreCompileInputs.cache
 D:\code\c#\homework1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.dll
 D:\code\c#\homework1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.pdb
+D:\homework\Программирование\1\Homework1\Logic\bin\Debug\netcoreapp3.1\Logic.deps.json
+D:\homework\Программирование\1\Homework1\Logic\bin\Debug\netcoreapp3.1\Logic.dll
+D:\homework\Программирование\1\Homework1\Logic\bin\Debug\netcoreapp3.1\Logic.pdb
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.csprojAssemblyReference.cache
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.AssemblyInfoInputs.cache
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.AssemblyInfo.cs
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.csproj.CoreCompileInputs.cache
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.dll
+D:\homework\Программирование\1\Homework1\Logic\obj\Debug\netcoreapp3.1\Logic.pdb

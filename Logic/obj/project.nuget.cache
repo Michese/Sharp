@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "44++w6no5LCGpVmOWgfZzhaoIv3BiZQ9MIxBJtUffvkjvCscHcLjI3Yeslbo6eavD0iZBcGtOVjf6DBfHXKk4A==",
+  "dgSpecHash": "RT7W4nAqdlpLaU3Z5LTvjZFN46HDUGyKrUxbHwDrCOZ3anFTukusW3HS21+9ZMAECcXaCOCu6efgrnaEoSOlUA==",
   "success": true,
   "projectFilePath": "D:\\homework\\Программирование\\1\\Homework1\\Logic\\Logic.csproj",
   "expectedPackageFiles": [
@@ -25,7 +25,8 @@
     "C:\\Users\\miche\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\miche\\.nuget\\packages\\system.text.encoding.codepages\\4.4.0\\system.text.encoding.codepages.4.4.0.nupkg.sha512",
     "C:\\Users\\miche\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512",
-    "C:\\Users\\miche\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
+    "C:\\Users\\miche\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
+    "C:\\Users\\miche\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
   ],
   "logs": []
 }
